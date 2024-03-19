@@ -38,7 +38,10 @@ class SalesInvoiceItem(Document):
 		description: DF.TextEditor | None
 		discount_account: DF.Link | None
 		discount_amount: DF.Currency
+		discount_amount_on_grand_total: DF.Currency
+		discount_based_on: DF.Literal["Grand Total", "Price List Rate"]
 		discount_percentage: DF.Percent
+		discount_percentage_on_grand_total: DF.Percent
 		dn_detail: DF.Data | None
 		enable_deferred_revenue: DF.Check
 		expense_account: DF.Link | None

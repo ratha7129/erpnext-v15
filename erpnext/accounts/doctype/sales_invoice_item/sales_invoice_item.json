@@ -31,10 +31,13 @@
   "price_list_rate",
   "base_price_list_rate",
   "discount_and_margin",
+  "discount_based_on",
   "margin_type",
   "margin_rate_or_amount",
   "rate_with_margin",
   "column_break_19",
+  "discount_percentage_on_grand_total",
+  "discount_amount_on_grand_total",
   "discount_percentage",
   "discount_amount",
   "base_rate_with_margin",
@@ -252,8 +255,6 @@
    "read_only": 1
   },
   {
-   "collapsible": 1,
-   "collapsible_depends_on": "eval: doc.margin_type || doc.discount_amount",
    "fieldname": "discount_and_margin",
    "fieldtype": "Section Break",
    "label": "Discount and Margin"
@@ -290,17 +291,18 @@
    "depends_on": "price_list_rate",
    "fieldname": "discount_percentage",
    "fieldtype": "Percent",
-   "label": "Discount (%) on Price List Rate with Margin",
+   "label": "Discount (%)",
    "oldfieldname": "adj_rate",
    "oldfieldtype": "Float",
-   "print_hide": 1
+   "print_hide": 1,
+   "read_only_depends_on": "eval:doc.discount_based_on == \"Grand Total\""
   },
   {
-   "depends_on": "price_list_rate",
    "fieldname": "discount_amount",
    "fieldtype": "Currency",
-   "label": "Discount Amount",
-   "options": "currency"
+   "label": "Discount Amount On Rate",
+   "options": "currency",
+   "read_only_depends_on": "eval:doc.discount_based_on == \"Grand Total\""
   },
   {
    "depends_on": "eval:doc.margin_type && doc.price_list_rate && doc.margin_rate_or_amount",
@@ -921,12 +923,31 @@
   {
    "fieldname": "column_break_ytgd",
    "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "discount_amount_on_grand_total",
+   "fieldtype": "Currency",
+   "label": "Discount Amount On Grand Total",
+   "read_only_depends_on": "eval:doc.discount_based_on == \"Price List Rate\""
+  },
+  {
+   "default": "Grand Total",
+   "fieldname": "discount_based_on",
+   "fieldtype": "Select",
+   "label": "Discount Based On",
+   "options": "Grand Total\nPrice List Rate"
+  },
+  {
+   "fieldname": "discount_percentage_on_grand_total",
+   "fieldtype": "Percent",
+   "label": "Discount (%) On Grand Total",
+   "read_only_depends_on": "eval:doc.discount_based_on == \"Price List Rate\""
   }
  ],
  "idx": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-02-25 15:56:44.828634",
+ "modified": "2024-03-19 13:49:20.971398",
  "modified_by": "Administrator",
  "module": "Accounts",
  "name": "Sales Invoice Item",

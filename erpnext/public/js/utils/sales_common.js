@@ -151,6 +151,33 @@ erpnext.sales_common = {
 				this.set_dynamic_labels();
 			}
 
+			discount_based_on(doc,cdt,cdn){
+				var item = frappe.get_doc(cdt, cdn);
+				item.discount_percentage = 0.0
+				item.discount_amount = 0.0
+				item.discount_amount_on_grand_total = 0.0
+				item.discount_percentage_on_grand_total = 0.0
+				this.apply_discount_on_item(doc, cdt, cdn, "discount_based_on");
+			}
+
+			discount_percentage_on_grand_total(doc,cdt,cdn){
+				var item = frappe.get_doc(cdt, cdn);
+				item.discount_percentage = 0.0
+				item.discount_amount = 0.0
+				item.discount_percentage = item.discount_percentage_on_grand_total
+				item.discount_amount_on_grand_total = (item.price_list_rate * item.qty) * (item.discount_percentage_on_grand_total/100)
+				this.apply_discount_on_item(doc, cdt, cdn, "discount_percentage_on_grand_total");
+			}
+
+			discount_amount_on_grand_total(doc,cdt,cdn){
+				var item = frappe.get_doc(cdt, cdn);
+				item.discount_percentage = 0.0
+				item.discount_amount = 0.0
+				item.discount_percentage = (item.discount_amount_on_grand_total * 100) / (item.price_list_rate * item.qty)
+				item.discount_percentage_on_grand_total = item.discount_percentage
+				this.apply_discount_on_item(doc, cdt, cdn, "discount_amount_on_grand_total");
+			}
+
 			discount_percentage(doc, cdt, cdn) {
 				var item = frappe.get_doc(cdt, cdn);
 				item.discount_amount = 0.0;
