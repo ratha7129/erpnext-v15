@@ -742,6 +742,7 @@ frappe.ui.form.on("Payment Entry", {
 	},
 
 	received_amount: function (frm) {
+
 		frm.set_paid_amount_based_on_received_amount = true;
 
 		if (!frm.doc.paid_amount && frm.doc.paid_from_account_currency == frm.doc.paid_to_account_currency) {
@@ -751,6 +752,9 @@ frappe.ui.form.on("Payment Entry", {
 				frm.set_value("source_exchange_rate", frm.doc.target_exchange_rate);
 			}
 			frm.set_value("base_paid_amount", frm.doc.base_received_amount);
+		}
+		else{
+			frm.set_value("paid_amount", flt(frm.doc.received_amount) * flt(frm.doc.target_exchange_rate));
 		}
 
 		frm.set_value(
